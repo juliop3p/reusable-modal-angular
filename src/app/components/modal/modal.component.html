@@ -1,0 +1,40 @@
+<div *ngIf="isOpen" class="modal-background" #background>
+  <div class="modal" #modal>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>{{ modalConfig.modalTitle ? modalConfig.modalTitle : "" }}</h3>
+        <div class="dismiss" *ngIf="!modalConfig.hideDismissButton">
+          <span class="dismiss-label-text">{{
+            modalConfig.dismissButtonLabel ? modalConfig.dismissButtonLabel : ""
+          }}</span>
+          <button
+            [disabled]="modalConfig.disableDismissButton"
+            [ngClass]="{ 'dismiss-disabled': modalConfig.disableDismissButton }"
+            (click)="dismiss()"
+            style="cursor: pointer"
+          >
+            &times;
+          </button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <ng-content></ng-content>
+      </div>
+      <div class="modal-footer">
+        <button
+          *ngIf="!modalConfig.hideCloseButton"
+          [disabled]="modalConfig.disableCloseButton"
+          [ngClass]="{ 'button-disabled': modalConfig.disableCloseButton }"
+          (click)="close()"
+          style="cursor: pointer"
+        >
+          {{
+            modalConfig.closeButtonLabel
+              ? modalConfig.closeButtonLabel
+              : "Fechar"
+          }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
