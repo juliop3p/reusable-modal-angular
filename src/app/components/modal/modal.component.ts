@@ -6,7 +6,7 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { Modal } from './modal.model';
+import { Modal, ModalState } from './modal.model';
 import { ModalService } from './modal.service';
 
 @Component({
@@ -32,14 +32,9 @@ export class ModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.modalService.isOpenChange.subscribe((value) => {
-      this.isOpen = value;
+    this.modalService.isOpenChange.subscribe((value: ModalState) => {
+      if (this.modalConfig.id === value.id) this.isOpen = value.state;
     });
-    console.log(this.modalConfig.hideCloseButton);
-  }
-
-  openModal() {
-    this.modalService.openModal();
   }
 
   async close(): Promise<void> {
@@ -50,7 +45,7 @@ export class ModalComponent implements OnInit {
       const result =
         this.modalConfig.onClose === undefined ||
         (await this.modalConfig.onClose());
-      this.modalService.closeModal(result);
+      this.modalService.closeModal(this.modalConfig);
     }
   }
 
@@ -62,14 +57,7 @@ export class ModalComponent implements OnInit {
       const result =
         this.modalConfig.onDismiss === undefined ||
         (await this.modalConfig.onDismiss());
-      this.modalService.dismissModal(result);
+      this.modalService.dismissModal(this.modalConfig);
     }
   }
-
-  // @HostListener('document:click', ['$event.target'])
-  // onOutOfModalClick(event: any): void {
-  //   if (!this.elementRef.nativeElement.contains(event)) {
-  //     this.close();
-  //   }
-  // }
 }

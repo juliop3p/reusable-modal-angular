@@ -1,3 +1,4 @@
+import { Modal, ModalState } from './modal.model';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
@@ -7,31 +8,23 @@ import { Observable, Subject } from 'rxjs';
 export class ModalService {
   isOpen: boolean = false;
 
-  isOpenChange: Subject<boolean> = new Subject<boolean>();
+  isOpenChange: Subject<ModalState> = new Subject<ModalState>();
 
-  constructor() {
-    this.isOpenChange.subscribe((value) => {
-      this.isOpen = value;
-    });
-  }
+  constructor() {}
 
-  openModal() {
+  openModal(modalConfig: Modal) {
     window.scrollTo(0, 0);
-    this.isOpenChange.next(true);
+    this.isOpenChange.next({ state: true, id: modalConfig.id });
     document.body.style.overflow = 'hidden';
   }
 
-  closeModal(close: boolean) {
-    if (close) {
-      this.isOpenChange.next(false);
-      document.body.style.overflow = 'auto';
-    }
+  closeModal(modalConfig: Modal) {
+    this.isOpenChange.next({ state: false, id: modalConfig.id });
+    document.body.style.overflow = 'auto';
   }
 
-  dismissModal(dismiss: boolean) {
-    if (dismiss) {
-      this.isOpenChange.next(false);
-      document.body.style.overflow = 'auto';
-    }
+  dismissModal(modalConfig: Modal) {
+    this.isOpenChange.next({ state: false, id: modalConfig.id });
+    document.body.style.overflow = 'auto';
   }
 }

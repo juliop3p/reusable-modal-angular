@@ -13,10 +13,15 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {}
 
   async openModal() {
-    return await this.modalService.openModal();
+    return await this.modalService.openModal(this.modalConfig);
+  }
+
+  async openModal2() {
+    return await this.modalService.openModal(this.modalConfig2);
   }
 
   public modalConfig: Modal = {
+    id: '1',
     modalTitle: 'relatar problemas',
     onDismiss: () => {
       return true;
@@ -26,8 +31,18 @@ export class AppComponent implements OnInit {
       return true;
     },
     closeButtonLabel: 'Baixar PDF',
-    disableCloseButton: () => {
+  };
+
+  public modalConfig2: Modal = {
+    id: '2',
+    modalTitle: 'Testando',
+    onDismiss: () => {
       return true;
     },
+    onClose: () => {
+      alert('Baixando...');
+      return true;
+    },
+    closeButtonLabel: 'Teste',
   };
 }

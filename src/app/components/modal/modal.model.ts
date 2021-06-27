@@ -1,4 +1,5 @@
 export class Modal {
+  id: string;
   modalTitle?: string;
   dismissButtonLabel?: string;
   closeButtonLabel: string;
@@ -10,4 +11,9 @@ export class Modal {
   disableDismissButton?(): boolean;
   hideCloseButton?(): boolean;
   hideDismissButton?(): boolean;
+}
+
+export class ModalState {
+  id: string;
+  state: boolean;
 }
